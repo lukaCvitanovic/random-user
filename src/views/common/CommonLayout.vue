@@ -1,8 +1,10 @@
 <template>
   <div class="w-full flex flex-col">
     <common-header />
-    <main>
-      <router-view />
+    <main class="flex p-3 sm:p-6 justify-center">
+      <div class="w-full max-w-4xl">
+        <router-view />
+      </div>
     </main>
   </div>
 </template>

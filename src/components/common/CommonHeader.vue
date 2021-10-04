@@ -1,6 +1,6 @@
 <template>
   <div class="w-full flex justify-center items-center py-3 border-b border-black">
-    <router-link :to="{ name: 'root' }">
+    <router-link :to="{ name: 'users' }">
       <img
         :src="require('@/assets/logo.svg')"
         class="h-5"

@@ -13,16 +13,25 @@ const router = new VueRouter({
         {
           path: '/',
           name: 'users',
+          meta: {
+            title: 'Users List',
+          },
           component: () => import('@/views/List'),
         },
         {
           path: 'users/:id(\\d+)',
           name: 'user',
+          meta: {
+            title: 'User Details',
+          },
           component: () => import('@/views/Details'),
         },
         {
           path: '*',
           name: 'not-found',
+          meta: {
+            title: 'Page Not Found',
+          },
           component: () => import('@/views/errors/NotFound'),
         },
       ],

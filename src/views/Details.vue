@@ -16,5 +16,10 @@ export default {
     DetailsHeader,
     UserDetails,
   },
+
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit('removeUser');
+    next();
+  },
 };
 </script>

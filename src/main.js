@@ -4,11 +4,11 @@ import store from '@/store';
 import App from './App.vue';
 import axios from 'axios';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
+import { faUserSecret, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import '@/assets/styles/tailwind.css';
 
-library.add(faUserSecret);
+library.add(faUserSecret, faArrowLeft);
 Vue.component('fa-icon', FontAwesomeIcon);
 
 Vue.config.productionTip = false;

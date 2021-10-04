@@ -14,12 +14,14 @@
 
 <script>
 import Tile from '@/components/list/Tile';
-
-// const RANDOM_USERS_QUERY_PATH = '?results=1000&age=18&inc=id,name,dob,picture,email,location,phone&seed=dept';
-const TEST_URL = '?results=15&age=18&inc=name,dob,picture,email,location,phone&seed=dept';
+import CommonApiMethods from '@/mixins/CommonApiMethods';
 
 export default {
   name: 'List',
+
+  mixins: [
+    CommonApiMethods,
+  ],
 
   components: {
     Tile,
@@ -44,18 +46,17 @@ export default {
   },
 
   methods: {
-    getUsers() {
+    loadUsers() {
       this.setReady(false);
-      this.$api.get(TEST_URL)
-        .then(({ data: { results } }) => this.users = this.addIds(results))
+      this.fetchUsers()
+        .then((users) => {
+          this.users = users;
+        })
         .catch(() => console.log('Couldn\'t get random users'))
         .finally(() => this.setReady(true));
     },
     setReady(value) {
       this.ready = value;
-    },
-    addIds(array) {
-      return array.map((element, index) => ({ id: index, ...element }));
     },
     storeUser(id) {
       const selectedUser = this.users.find(({ id: userId }) => userId === id ) || {};
@@ -64,7 +65,7 @@ export default {
   },
 
   created() {
-    this.getUsers();
+    this.loadUsers();
   },
 };
 </script>

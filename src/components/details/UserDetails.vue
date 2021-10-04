@@ -1,28 +1,34 @@
 <template>
   <div
     v-if="ready"
-    class="w-full grid grid-cols-1 sm:grid-cols-2 gap-8 p-4"
+    class="w-full"
   >
-    <img :src="this.user.picture.large" class="w-full max-w-sm">
-    <div class="w-full flex flex-col">
-      <span class="text-3xl font-medium">{{ title }}</span>
-      <div class="w-full flex justify-between mt-4 text-lg">
-        <span class="font-medium">Date of Birth:</span>
-        <span>{{ dob }}</span>
-      </div>
-      <div class="w-full flex justify-between mt-2 text-lg">
-        <span class="font-medium">Place of Residence:</span>
-        <span class="text-right">{{ placeOfResidence }}</span>
-      </div>
-      <div class="w-full flex justify-between mt-2 text-lg">
-        <span class="font-medium">Email:</span>
-        <span class="text-right">{{ user.email }}</span>
-      </div>
-      <div class="w-full flex justify-between mt-2 text-lg">
-        <span class="font-medium">Phone number:</span>
-        <span class="text-right">{{ user.phone }}</span>
+    <div
+      v-if="hasUser"
+      class="grid grid-cols-1 sm:grid-cols-2 gap-8 p-4"
+    >
+      <img :src="this.user.picture.large" class="w-full max-w-sm">
+      <div class="w-full flex flex-col">
+        <span class="text-3xl font-medium">{{ title }}</span>
+        <div class="w-full flex justify-between mt-4 text-lg">
+          <span class="font-medium">Date of Birth:</span>
+          <span>{{ dob }}</span>
+        </div>
+        <div class="w-full flex justify-between mt-2 text-lg">
+          <span class="font-medium">Place of Residence:</span>
+          <span class="text-right">{{ placeOfResidence }}</span>
+        </div>
+        <div class="w-full flex justify-between mt-2 text-lg">
+          <span class="font-medium">Email:</span>
+          <span class="text-right">{{ user.email }}</span>
+        </div>
+        <div class="w-full flex justify-between mt-2 text-lg">
+          <span class="font-medium">Phone number:</span>
+          <span class="text-right">{{ user.phone }}</span>
+        </div>
       </div>
     </div>
+    <error-message v-else />
   </div>
 </template>
 
@@ -30,6 +36,7 @@
 import { mapGetters } from 'vuex';
 import { format } from 'date-fns';
 import CommonApiMethods from '@/mixins/CommonApiMethods';
+import ErrorMessage from '@/components/common/ErrorMessage';
 import isEmpty from 'lodash/isEmpty';
 
 export default {
@@ -38,6 +45,10 @@ export default {
   mixins: [
     CommonApiMethods,
   ],
+
+  components: {
+    ErrorMessage,
+  },
 
   data: () => ({
     user: {},
@@ -52,6 +63,7 @@ export default {
       const { city, state, country, street: { name: streetName, number: streetNumber } } = this.user.location;
       return `${streetNumber} ${streetName}, ${city}, ${state}, ${country}`;
     },
+    hasUser: (vm) => !isEmpty(vm.user),
   },
 
   methods: {

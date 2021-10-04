@@ -7,7 +7,10 @@
       v-if="hasUser"
       class="grid grid-cols-1 sm:grid-cols-2 gap-8 p-4"
     >
-      <img :src="this.user.picture.large" class="w-full max-w-sm">
+      <lazy-loaded-img
+        :src="this.user.picture.large"
+        class="w-full max-w-sm"
+      />
       <div class="w-full flex flex-col">
         <span class="text-3xl font-medium">{{ title }}</span>
         <div class="w-full flex justify-between mt-4 text-lg">
@@ -37,6 +40,7 @@ import { mapGetters } from 'vuex';
 import { format } from 'date-fns';
 import CommonApiMethods from '@/mixins/CommonApiMethods';
 import ErrorMessage from '@/components/common/ErrorMessage';
+import LazyLoadedImg from '@/components/common/LazyLoadedImg';
 import isEmpty from 'lodash/isEmpty';
 
 export default {
@@ -48,6 +52,7 @@ export default {
 
   components: {
     ErrorMessage,
+    LazyLoadedImg,
   },
 
   data: () => ({
@@ -72,7 +77,6 @@ export default {
         this.setReady(false);
         this.fetchUser(this.$route.params.id)
           .then((user) => {
-            console.log(user);
             this.user = user;
           })
           .catch(() => console.log('Couldn\'t get current user details'))

@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import VueLazyload from 'vue-lazyload';
 import router from '@/router';
 import store from '@/store';
 import App from './App.vue';
@@ -7,6 +8,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUserSecret, faArrowLeft, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import '@/assets/styles/tailwind.css';
+import loading from '@/assets/simple-spinner-1.gif';
 
 library.add(faUserSecret, faArrowLeft, faExclamationCircle);
 Vue.component('fa-icon', FontAwesomeIcon);
@@ -25,6 +27,11 @@ Vue.prototype.$api = axios.create({
   },
 });
 Vue.prototype.$api.interceptors.response.use((config) => config, (error) => Promise.reject(error));
+
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  loading,
+});
 
 const app = new Vue({
   router,

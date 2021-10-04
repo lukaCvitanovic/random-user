@@ -1,20 +1,24 @@
 <template>
-  <div
-    v-if="ready"
-    class="grid grid-cols-1 sm:grid-cols-2 gap-6"
-  >
-    <tile
-      v-for="user in formatedUsers"
-      :key="user.id"
-      v-bind="user"
-      @click.native="storeUser(user.id)"
-    />
+  <div v-if="ready">
+    <div
+      v-if="formatedUsers.length"
+      class="grid grid-cols-1 sm:grid-cols-2 gap-6"
+    >
+      <tile
+        v-for="user in formatedUsers"
+        :key="user.id"
+        v-bind="user"
+        @click.native="storeUser(user.id)"
+      />
+    </div>
+    <error-message v-else />
   </div>
 </template>
 
 <script>
 import Tile from '@/components/list/Tile';
 import CommonApiMethods from '@/mixins/CommonApiMethods';
+import ErrorMessage from '@/components/common/ErrorMessage';
 
 export default {
   name: 'List',
@@ -25,6 +29,7 @@ export default {
 
   components: {
     Tile,
+    ErrorMessage,
   },
 
   data: () => ({

@@ -1,4 +1,4 @@
-const RANDOM_USERS_QUERY_PATH = '?results=1000&age=18&inc=name,dob,picture,email,location,phone&seed=dept';
+const RANDOM_USERS_QUERY_PATH = `?results=1000&age=18&inc=name,dob,picture,email,location,phone&seed=${process.env.VUE_APP_SEED}`;
 
 const addIds = (array) => array.map((element, index) => ({ id: index, ...element }));
 

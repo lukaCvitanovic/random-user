@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import router from '@/router';
+import store from '@/store';
 import App from './App.vue';
 import axios from 'axios';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -25,7 +26,10 @@ Vue.prototype.$api = axios.create({
 });
 Vue.prototype.$api.interceptors.response.use((config) => config, (error) => Promise.reject(error));
 
-new Vue({
+const app = new Vue({
   router,
+  store,
   render: h => h(App),
-}).$mount('#app');
+});
+store.$app = app;
+app.$mount('#app');

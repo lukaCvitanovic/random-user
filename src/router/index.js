@@ -20,6 +20,11 @@ const router = new VueRouter({
           name: 'user',
           component: () => import('@/views/Details'),
         },
+        {
+          path: '*',
+          name: 'not-found',
+          component: () => import('@/views/errors/NotFound'),
+        },
       ],
     },
   ],

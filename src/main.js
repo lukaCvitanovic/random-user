@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueLazyload from 'vue-lazyload';
+import VuePageTitle from 'vue-page-title';
 import router from '@/router';
 import store from '@/store';
 import App from './App.vue';
@@ -31,6 +32,11 @@ Vue.prototype.$api.interceptors.response.use((config) => config, (error) => Prom
 Vue.use(VueLazyload, {
   preLoad: 1.3,
   loading,
+});
+
+Vue.use(VuePageTitle, {
+  sufix: '- Random User',
+  router,
 });
 
 const app = new Vue({

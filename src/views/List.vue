@@ -7,6 +7,7 @@
       v-for="user in formatedUsers"
       :key="user.id"
       v-bind="user"
+      @click.native="storeUser(user.id)"
     />
   </div>
 </template>
@@ -55,6 +56,10 @@ export default {
     },
     addIds(array) {
       return array.map((element, index) => ({ id: index, ...element }));
+    },
+    storeUser(id) {
+      const selectedUser = this.users.find(({ id: userId }) => userId === id ) || {};
+      this.$store.commit('setUser', selectedUser);
     },
   },
 

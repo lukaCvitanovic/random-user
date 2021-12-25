@@ -3,6 +3,7 @@ import Details from '@/views/Details';
 import NotFount from '@/views/NotFound';
 import CommonLayout from '@/views/common/CommonLayout';
 import { Routes, Route } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import '@/styles/tailwind.css';
 
 function App() {
@@ -10,9 +11,18 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={<CommonLayout />}>
-          <Route path="user/:id" element={<Details />} />
-          <Route index element={<List />} />
-          <Route path="*" element={<NotFount />} />
+          <Route
+            path="users/:id"
+            element={<Details user={useSelector((state) => state.user.user.payload)}/>}
+          />
+          <Route
+            index
+            element={<List dispatch={useDispatch()} />}
+          />
+          <Route
+            path="*"
+            element={<NotFount />}
+          />
         </Route>
       </Routes>
     </div>

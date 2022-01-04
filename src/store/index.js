@@ -1,25 +1,8 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import { configureStore } from '@reduxjs/toolkit';
+import userReducer from '@/store/slices/user';
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
-  state: {
-    user: {},
-  },
-
-  getters: {
-    getUser({ user }) {
-      return user;
+export default configureStore({
+    reducer: {
+        user: userReducer,
     },
-  },
-
-  mutations: {
-    setUser(state, user) {
-      state.user = user;
-    },
-    removeUser(state) {
-      state.user = {};
-    },
-  },
 });

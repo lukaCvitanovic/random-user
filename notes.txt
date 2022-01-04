@@ -1,0 +1,152 @@
+JSX
+    - JS in rendering enviroment
+    - assign DOM elements or components to JS variables
+    - za pristupanje variablama ili propovima
+        V - {{}}
+        R - {}, unutar moze ici bilo koja validni JS izraz
+    - nakon compailiranja JSX izrazu postaju obicne funkcije koje se razlucuju u JS objekte
+        - JSX moze raditi sa funkcijama koje primaju i vracaju DOM elemente ili componente
+        - kondicionalno i iterativno prikazivanje elemenate se obavlja preko JSX funkcija
+            - kondicionalno renderiranje moze koristiti ternarne izraze
+            - kada zelimo napraviti da komponenta sama sebe ne rendera (a da je parent komponenta prikazuje), tada napravimo da render funkcija vraca null
+                - ovo ne ometa rad lifecycle metoda komponetne
+            - prikazivanje liste komponenata moze iskoristi sve nacine manipuliranja arrayom koju JS posjeduje ukljucujuci i metode poput map
+            - kada komponenta u sebi ima iterativno renderirane komponente ili elemente potrebno je dodijeliti key atribut na svaki element
+                - key ima isto dijelovanje i funkciju kao i u Vue
+    - JSX koristi cammelCase za imenovanje propova i atributa
+    - u pozadini Babel pretvara JSX izraze u React.createElement() pozive koji
+        - React.createElement() pozivi stvaraju React elements koji opisuju elemente koje zelimo vidjeti i na osnovu njih modificira DOM
+Renderiranje elemenata
+    - React elementi su JS objekti koje je jeftino za kreirati
+    - React DOM na osnovu React elemenata modificira DOM
+    - sve unutar "root" div-a upravlja React DOM
+    - za prikazivanje elementa potrebno je pozvati ReactDOM.render()
+    - Updatanje renderiranog elementa
+        - React elementi su immutable
+            - nije moguce mijenjati atribute ili djecu renderiranog elementa
+        - jedini nacin za updatanje UI-a ja pozivanjem ReactDOM.render() funkcije
+        - ReactDOM promatra predhodno stanje DOM-a sa tranutnim i primjenjuje promjena samo na elemennte koji su razliciti
+            - cak i kada se citavi elementi ponovno renderaju
+Components
+    - konceptualno, komponente su poput JS funkcija kojiprimaju inpute preko propova i vracaju React elemente
+    - najjednostavniji nacin za definiranjem komponente je putem funkcije
+        - funkcijske kompnente prihvacaju jedan props objekt i vracaju React element preko React element
+    - komponenta se moze definirati pomocu ES6 klase
+    - kod komponenata koje je korisnik napravio React salje sve atribute i children u props objektu
+    - React predpostavlja da su korisnicke kompnente napisane sa velikim slovom, a HTML tagovi sa malim slovom
+    - props su read-only
+        - sve React komponente se moraju ponasati kao pure funkcije prema svojim propovima
+            - pure funkcije ne mijenjaju vlastiti input
+            - inpure je obrnuto
+    - R - stanje/V - data
+        - render metoda klasne komponente se poziva svaki put kada se promjena dogodi
+        - ako jednu komponentu renderamo u isiti DOM node tada se koristi samo jedna instance te komponenate
+            - ovo omogucava koristenje lokalnog stanja i lifecycle hookova
+        - za dodavanje stanja potrebno je kreirati contructor metodu
+            - u kojoj pozivamo super(props) te definiramo this.state
+        - promjene stanja komponente se obavljaju pozivom this.setState() metode
+            - jedino mjesto gdje se assigna this.state je u contructor-u
+            - ova metoda scheduala promjenu stanja komponente te je rerendera
+            - u slucajevima kada novo stanje ovisi o trenutnom stanju komponente pozeljno je koristiti update funkciju kao argument this.setState() metode
+                - ovime se dobiva pristup trenutnoj vrijednosti stanja komponente
+                    - u slucaju kada se salje objekt kao argument, to onda nije moguce
+            - this.setState() omogucava reaktivnost komponente koju Vue ima ugrađenu
+            - radi boljih performansi React grupira vise setState poziva u jedan
+            - promjena stanja koju uzrokuje this.setState() radi update na this.state poput assign iz lodash
+    - Eventovi
+        - imena koriste cammelCase
+        - dodjeljuju se na event kao i state ili prop u JSX-u (click={eventHandeler})
+        - prevent default se postize pozivanje preventDefault na event (e.preventDefault())
+        - isto vrijedi i za stopPropagation()
+        - uobicajeni pattern je da je event handeler metoda klasne komponente
+        - callback metode nemaju bound-an this na njima
+            - defaultno this je undefiend u callback metodama
+            - kako bi se this odnosio na komponentu potrebno je boundat this na metodu
+                - eksplicitno pozivom bind metode (this.callBack = this.callBack.bind(this))
+                - ukoliko se koristi public class fields syntax tada su metode automatski bindane na this
+                    - ovo je omoguceno u create-react-app
+                - koristenjem arrow funkcija
+                    - caviat ove metode je sto se na ovaj nacin svaki put stvara nova instanca callback metode
+                        - moze uzrokovati nepotrebne rerendere kod child komponti
+                    - preporuca se izbjegavanje ove metode bindanja this-a
+            - prosljedivanje argumenta event handeleru se obavlja na 2 nacina
+                - koristenjem arrow funkcije (click={(e) => this.eventHandeler(id, e)})
+                - koristenjem bind metode (click={this.eventHandeler.bind(this, id)})
+                    - event objekt je automatski prosljeden kada se koristi bind metoda
+    - lifecycle metode
+        -postavljaju se kao metode klasne komponente (isto kao i u Vue)
+Forme
+    - drugcije se ponasaju u Reactu nego u obicnom HTML-u jer forma sama sadrzi interno stanje
+    - kako bi se dobio pristup podatcima kojima forma barata potrebno je koristiti "kontrolirane komponente"
+        - kontolirana komponenta je npr. input form element cije stanje kontrolira React
+            - ovime se postize da je React stanje "single source of throught"
+            - kontroliranje komponenata raditi kao i u Vue
+                - postaviti value prop da se vuce iz React stanje
+                - promjena stanje elementa od strane korisnika handela callback koji je React metoda
+            - za onemogucavanje unosa se postize postavljanjem vrijednostu u null
+            - ponekad nije najbolja opcija za kontroliranjem formu u Reactu
+                - zahtjeva dosta boilerplate koda
+                - nekad moze biti ne kompaktibilna sa ne React librery-ima
+    - alternativa su "uncontroled componenents"
+    - Formik
+        - zaorkuzeno rijesenje za handelanje formu sa validacijom, biljezenjem posjecenih polja, itd.
+        - baziran na kontoliranim komponenatama
+Composition vs Inheritance
+    - implementacija V slotova u Reactu
+        - defaultni slot se koristi na nacin da se na prop children salju elementi koji se tribaju prikazati poput slota
+            - ovo se odnosi na genereicku komponentu koja bi trebala imati u sebi <slot />
+        - dodavanje slotanih elemenata u komponentu se obavlja na isti nacion kao i u Vue
+    - imeplementacija named slotova se obavlja koristenjem proizvodnih imena propova koji primaju JSX elemente
+        - iz vanka ti named slotovi se koriste kao propovi kojima su dodjeljeni JSX elementi
+Accessibility
+    - koristenjem aria atributa
+        - za razliku od obicnih atributa aira atributi se pisu u cebab caseu
+            - koriste se za widgete
+    - koristenjem odgovoarajucih HTML elemenata
+    - pravilan labeling koristenjem label HTML elementa
+        - ovime postavljamo label na form kontrole
+            - inputi, selectori, textarea
+    - pravilno exposanje errora
+    - kontrola fokusa
+        - omogucavanje da se stranica moze koristiti samo sa tipkovnicom
+        - focus outline samo micati u slucajevima kada ce se ona nadomjestiti sa kusomiziranom variantom istoga
+    - skip linkovi koji se koriste za ubrazanje korisnika
+        - implementiraju se putem anchora i landmark elemenata poput main i aside
+Code-splitting
+    - metoda smanjivanja bundela aplikacije
+        - dovodi do brzeg loadanja appa
+    - najjednostavnija metoda je koristenje dinamicke import() sintakse
+    - code splitting na SSR aplikacijama se postize koristenjema Loadable components
+    - React.lazy omogucuje pristup dinamicki loadanim komponentama kao normalno loadane komponente
+        - radi samo na default export
+            - ako se zeli koristiti named export potrebno je napraviti intermedian dokument koji named export exporta kao defaultni
+        - nije dostupana za SSR
+        - ove komponente se moraju mountati unutar Suspense komponente
+            - posjeduje fallback content koji se prikazuje dok se zeljena komponenta loada
+        - za handlanje errora prilikom loadanja lazy loadanog sadrzaja koristi se MyErrorBoundary
+    - code splitting bazirano na ruti
+        - pozeljno jer se na taj nacin codebase dijeli na logicke cijeline
+            - korisnici su nauceni na malo loadanje stranice prilikom promjene stranice
+
+React Router
+    - rutiranje se radi preko JSX-a
+        - nije u zasebnom js dokumentu
+    - 
+
+Redux
+- posjeduje zaseban js file sa svim modulima
+    - redux modul se naziva slice
+        - slice sadrzi stanje i akcije
+            - akcije odgovaraju mutacijama
+            - akcije se zasebno exportaju
+        - svaki slice exporta svoje reducer funkciju
+            - reducer prima stanje slice i akciju s kojom se "modificira" stanje
+
+Pitanja
+- dali je po dizajnu da se preko propova salju callback funkcije koje bi emitale eventove nazad u komponentu koja salje tu metodu
+- koja je uloga HTML aria atributa
+- React fragments
+
+Podrucja napredovanja
+- Accessibility
+- Focus control

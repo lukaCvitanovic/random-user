@@ -7,7 +7,7 @@ const CommonLayout = () => {
     let location = useLocation();
 
     const logoLink = () => {
-        if (location.pathname !== '/') {
+        if (location.pathname.search('task') !== -1) {
             return (
                 <Link to="task">
                     <img src={logo} alt="DEPT logo" className='h-6' />

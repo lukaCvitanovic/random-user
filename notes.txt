@@ -98,6 +98,7 @@ Composition vs Inheritance
         - dodavanje slotanih elemenata u komponentu se obavlja na isti nacion kao i u Vue
     - imeplementacija named slotova se obavlja koristenjem proizvodnih imena propova koji primaju JSX elemente
         - iz vanka ti named slotovi se koriste kao propovi kojima su dodjeljeni JSX elementi
+    - prop slotovi su implementirani sa render propovima
 Accessibility
     - koristenjem aria atributa
         - za razliku od obicnih atributa aira atributi se pisu u cebab caseu
@@ -127,6 +128,78 @@ Code-splitting
     - code splitting bazirano na ruti
         - pozeljno jer se na taj nacin codebase dijeli na logicke cijeline
             - korisnici su nauceni na malo loadanje stranice prilikom promjene stranice
+Context
+    - omgucava prosljedivanje podataka kroz component tree bez prop drilanja
+    - obicno se koristi za dijeljenje podataka koji se smatraju globalnima
+        - autenticirani korisnik
+    - koristenje povecava cupeling izmedu komponenata
+        - stoga se preporuca sto rijede koristenje
+        - ponekad se koristenje contexta moze zaobici slanjem citave komponente
+            - u svrhu izbjegavanja prop drillanja
+    - promjena konteksta iz duboke komponente slanje funkcije preko konteksta koja omogucava mijenjanje vrijednosti konteksta
+Hooks
+    - omogucavaju da fukncionalne komponente imaju iste mogucosti kao i klasne komponenete
+    - hook-ovi se nemogu pozivati unutar petlji, if-ova i ugnjezdenih funkcija
+    - hook-ovi se mogu pozivati unutra funkcionalnih komponenti i custom hook-ova
+        - useState hook omogucava koristenje state-a unutar funkcionalne komponente
+            - omogucava postavljanje inicijalne vrijednosti state-a
+                - inicijalno stanje nemora biti objekt
+                - inicijalno stanje se moze dobite preko kompleksne fukcije
+                    - argument useState moze biti funkcija
+            - hook vraca trenutno staje i metdu za mijenjanjem stog stanja
+                - metoda za mijenjanje stanja prima argument koji postaje novo stanje
+                    - za pristup predhodom stanju ka argument se salje fukcije
+                        - kao prvi argument je trenutno stanje
+            - moguce je visestruko pozivanje useState hook-a
+        - useEffect hook omogucava koristenje lifecycle hookove unutar fukcionalnih komponenti
+            - pozivom hook-a effect-i se primjenjuju nakon promjene DOM-a
+            - pristup componentDidMount u componentDidUpdate je omogucen preko callback fukcije koja se salje kao argument useEffect hook-u
+            - pristup componentDidUnmount je omogucent preko return callback funkcije
+            - useEffect je pogodan za sve vrste effekata osim onih koji se ticu DOM-a
+                - posto se useEffect pokrece nakon paintanja elemenata
+                    - za effekte koji se ticu DOM-a koristi se useLayoutEffect hook
+            - omoguceno visestruko pozivanje hook-a
+            - useEffect se poziva nakon svakog rerendera
+                - kako bi se u nekim situacijama ovo izbjeglo radi optimizacije, drugi argument useEffect-a je array vrijdnosti o kojima hook ovisi
+                    - promjenom navedenih vrijednosti ce izazvati pozivanje useEffect-a
+                        - slanjem praznog array-a uzrokovat ce pozivanje useEffect-a samo jednom
+                            - jedan put na mount i unmount
+        - useLayoutEffect hook omogucava primjenu efekata na DOM elemente
+            - ima istu fukcionalnost kao u useEffect
+        - useContext omogucava pristup context objektu
+            - prihvaca context objeckt React.createContext i vraca trenutno stanje najblizeg context objekta on parent Provider componente
+            - promjenom najblizeg nadredenog context providera hook ce uzrokovati rerender sa novom vrijednocu contexta
+        - useReducer omogucava koristenje reducera (Redux)
+            - prima 3 argumenta
+                - reducer tipa (state, action) => newState
+                - pocetno stanje state-a
+                - init funkcija koja se koristi za racunanje pocetne vrijednosti state-a
+                    - koristno prilikom resetiraja vriednosti state-a
+            - pozeljniji od useState-a u situacijama kada state ima vise subvrijednosti
+            - ukoliko useReducer vrati isti state kao i trenutni, tada ce se dogiditi bailout ovog hooka
+                - nece se nepotrebno rerenderati child componente
+        - useCallback
+            - prima inline callback i array deppendecie vrijednosti
+            - hook vraca memoiziranu verziju callback-a koji se mijenja samo kada se promjeni neki od deppendecie-a u array-u
+            - hook je koristan kada se optimiziraim child komponentama salje callback kao referenca za sprijecavanje rerendera (shouldComponentUpdate)
+            - useCallback(fn, deps) je jednak useMemmo(() => fn, deps)
+        - useMemo vraca memoiziranu vrijednost
+            - memoizirana vrijednost se ponovno izracunava kada se promijei neki od deps vrijednosti
+            - funkcija koja se salje u useMemo se poziva tijekom render
+                - u funkciji se nesmiju nalaziti nikakvi effekti, oni spadaju u useEffect
+            - ako se ne prosljiedi nikakav deps array vriednost ce se izracunavati na svakom rerender-u
+        - useRef vraca mutable objekt ciji .current property je inicijaliziran na dan initialValue argument
+            - const refContainer = useRef(initialValue);
+            - useRef je kao kutija koja u current property-u moze sadrzavati mutable varijablu
+            - useRef je koristan za drzanje bilo koje mutable vrijednosti u current property-u
+                - ovo funkcionira jer useRef kreira obicni JS objekt
+                    - jedina razlika izmedu useRef i { current: ...} je sta useRef daje isti objekt na svakom renderu
+            - useRef ne rerender-a kada se .current promjeni
+                - za tu svrhu bolje je koristiti callback ref
+        - custom hook-ovi
+            - koriste se za ponovno iskoristavanje komponentne logike
+                - rade isto sto i highger-order components i reder props samo bez dodavanja nepotrebnih komponenti
+            
 
 React Router
     - rutiranje se radi preko JSX-a

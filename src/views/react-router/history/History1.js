@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+import useProgramaticNav from '@/views/react-router/useProgramaticNav';
 
 const History1 = () => {
-    const navigate = useNavigate();
+    const navigate = useProgramaticNav();
 
     const changePage = () => navigate('/react-router/history/2');
 

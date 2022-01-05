@@ -1,6 +1,8 @@
-import useProgramaticNav from '@/views/react-router/history/useProgramaticNav';
+import useProgramaticNav from '@/views/react-router/useProgramaticNav';
 
 const History2 = () => {
+    const navigate = useProgramaticNav();
+
     const changePage = () => navigate('/react-router/history/1');
 
     return (

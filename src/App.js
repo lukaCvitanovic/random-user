@@ -3,6 +3,7 @@ import Details from '@/views/task/Details';
 import NotFount from '@/views/task/NotFound';
 import History1 from '@/views/react-router/history/History1';
 import History2 from '@/views/react-router/history/History2';
+import RefForwarding from '@/views/RefForwarding';
 import CommonLayout from '@/views/task/common/CommonLayout';
 import Menu from '@/views/Menu';
 import { Routes, Route } from 'react-router-dom';
@@ -47,6 +48,10 @@ function App() {
             />
           </Route>
         </Route>
+        <Route
+          path="ref-forwarding"
+          element={<RefForwarding />}
+        />
         <Route
           path='*'
           element={<NotFount />}

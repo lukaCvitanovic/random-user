@@ -8,6 +8,7 @@ const Menu = () => {
             <Link to="react-router/history/1">Programatic navigation</Link>
             <Link to="ref-forwarding">Ref Forwarding</Link>
             <Link to="portal">Portal</Link>
+            <Link to="aside">Aside</Link>
         </div>
     );
 };

@@ -5,6 +5,7 @@ import History1 from '@/views/react-router/history/History1';
 import History2 from '@/views/react-router/history/History2';
 import RefForwarding from '@/views/RefForwarding';
 import PortalsPage from '@/views/PortalsPage';
+import Aside from '@/views/Aside';
 import CommonLayout from '@/views/task/common/CommonLayout';
 import Menu from '@/views/Menu';
 import { Routes, Route } from 'react-router-dom';
@@ -56,6 +57,10 @@ function App() {
         <Route
           path="portal"
           element={<PortalsPage />}
+        />
+        <Route
+          path="aside"
+          element={<Aside />}
         />
         <Route
           path='*'

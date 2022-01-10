@@ -27,6 +27,14 @@ Renderiranje elemenata
         - jedini nacin za updatanje UI-a ja pozivanjem ReactDOM.render() funkcije
         - ReactDOM promatra predhodno stanje DOM-a sa tranutnim i primjenjuje promjena samo na elemennte koji su razliciti
             - cak i kada se citavi elementi ponovno renderaju
+Fragments
+    - koristi se za vracanje vise elemenata kao root element
+        - primjer su tablice
+    - skracena sintaksa je <></>
+        - koristi se kao svaka druga komponenta
+        - neprima nikakve atribute
+    - sa sintasksom <React.Fragment></React.Fragment> moze se koristiti atribut key
+        - pozeljno za koristenje prilikom renderanje kolekcije elemenata
 Components
     - konceptualno, komponente su poput JS funkcija kojiprimaju inpute preko propova i vracaju React elemente
     - najjednostavniji nacin za definiranjem komponente je putem funkcije
@@ -75,6 +83,28 @@ Components
                     - event objekt je automatski prosljeden kada se koristi bind metoda
     - lifecycle metode
         -postavljaju se kao metode klasne komponente (isto kao i u Vue)
+HOC
+    - pattern pisanja komponenti
+    - HOC je funkcija koja prima komponentu i pretvara je u novu komponentu
+        - za razliku od obicne komponente koja propove pretvara u UI
+    - se koristi kao zamjena za mixin-e
+    - primarna svrha HOC-a je reusanje patterna logike unutar komponenti
+    - HOC je pure funkcija
+    - HOC netreba znati sta wrappedComponent radi sa podatcima, wrappedComponent netreba znati odakle dolaze podatci
+    - kompinikacija izmedu HOC i wrappedComponent je propbased stoga
+        - moguce je jednostavno zamijeniti HOC-ove ukoliko se koriste isit porpovi
+    - HOC nesmije mutirati wrappedComponent
+        - kako bi HOC moga funkcionirati sa funkcionalnim komponentama koje nemaju lifecycle hookove
+        - umjesto mutacije, HOC treba koristiti compoziciju
+            - wrapati wrappedComponent u novu komponentu na koju se mogu davati lifecycle hookovi
+            - na ovaj nacin se na dobivenu komponentu mogu staviti drugi HOC-ovi te funkcionira sa funkcionalnim komponentama
+    - HOC-ovi koriste container komponente kao dio svog patterna
+        - container komponente su higher-level komponent koje obavljaju subcripcije
+    - HOC-ovi propustaju sve propove za koje HOC netreba znati
+    - HOC-ovi se nesmiju koristiti unutar render metoda
+    - HOC-ovi ne propustaju ref-ove
+        - rijesenje je ref forwarding
+
 Forme
     - drugcije se ponasaju u Reactu nego u obicnom HTML-u jer forma sama sadrzi interno stanje
     - kako bi se dobio pristup podatcima kojima forma barata potrebno je koristiti "kontrolirane komponente"
@@ -182,7 +212,7 @@ Hooks
             - prima inline callback i array deppendecie vrijednosti
             - hook vraca memoiziranu verziju callback-a koji se mijenja samo kada se promjeni neki od deppendecie-a u array-u
             - hook je koristan kada se optimiziraim child komponentama salje callback kao referenca za sprijecavanje rerendera (shouldComponentUpdate)
-            - useCallback(fn, deps) je jednak useMemmo(() => fn, deps)
+            - useCallback(fn, deps) je jednak useMemo(() => fn, deps)
         - useMemo vraca memoiziranu vrijednost
             - memoizirana vrijednost se ponovno izracunava kada se promijei neki od deps vrijednosti
             - funkcija koja se salje u useMemo se poziva tijekom render
@@ -214,6 +244,12 @@ Redux
             - akcije se zasebno exportaju
         - svaki slice exporta svoje reducer funkciju
             - reducer prima stanje slice i akciju s kojom se "modificira" stanje
+
+Potrebni primjeri
+- tooltip ili dropdown koji nadilazi overflow hidden parrent
+- ispobaj aside element
+- probaj customizirat detail element
+- renderanje dinaicne liste istih elemenata
 
 Pitanja
 - dali je po dizajnu da se preko propova salju callback funkcije koje bi emitale eventove nazad u komponentu koja salje tu metodu

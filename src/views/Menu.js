@@ -9,6 +9,7 @@ const Menu = () => {
             <Link to="ref-forwarding">Ref Forwarding</Link>
             <Link to="portal">Portal</Link>
             <Link to="aside">Aside</Link>
+            <Link to="dynamic-inputs">Dynami Inputs</Link>
         </div>
     );
 };

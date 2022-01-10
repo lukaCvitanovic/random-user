@@ -6,6 +6,7 @@ import History2 from '@/views/react-router/history/History2';
 import RefForwarding from '@/views/RefForwarding';
 import PortalsPage from '@/views/PortalsPage';
 import Aside from '@/views/Aside';
+import DynamicInputs from '@/views/DynamicInputs';
 import CommonLayout from '@/views/task/common/CommonLayout';
 import Menu from '@/views/Menu';
 import { Routes, Route } from 'react-router-dom';
@@ -61,6 +62,10 @@ function App() {
         <Route
           path="aside"
           element={<Aside />}
+        />
+        <Route
+          path="dynamic-inputs"
+          element={<DynamicInputs />}
         />
         <Route
           path='*'

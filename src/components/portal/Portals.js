@@ -37,8 +37,6 @@ export const usePortal = (portalName) => {
 export const Portal = ({ portalName, children }) => {
     const [portalTarget] = usePortal(portalName);
 
-    console.log(portalTarget);
-
     return portalName ? createPortal(children, portalTarget) : null;
 };
 

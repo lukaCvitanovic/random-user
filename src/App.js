@@ -7,6 +7,7 @@ import RefForwarding from '@/views/RefForwarding';
 import PortalsPage from '@/views/PortalsPage';
 import Aside from '@/views/Aside';
 import DynamicInputs from '@/views/DynamicInputs';
+import PortalTooltip from '@/views/PortalTooltip';
 import CommonLayout from '@/views/task/common/CommonLayout';
 import Menu from '@/views/Menu';
 import { Routes, Route } from 'react-router-dom';
@@ -66,6 +67,10 @@ function App() {
         <Route
           path="dynamic-inputs"
           element={<DynamicInputs />}
+        />
+        <Route
+          path="portal-tooltip"
+          element={<PortalTooltip />}
         />
         <Route
           path='*'

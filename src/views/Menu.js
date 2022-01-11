@@ -10,6 +10,7 @@ const Menu = () => {
             <Link to="portal">Portal</Link>
             <Link to="aside">Aside</Link>
             <Link to="dynamic-inputs">Dynami Inputs</Link>
+            <Link to="portal-tooltip">Portal Tooltip</Link>
         </div>
     );
 };

@@ -246,10 +246,11 @@ Redux
             - reducer prima stanje slice i akciju s kojom se "modificira" stanje
 
 Potrebni primjeri
-- tooltip ili dropdown koji nadilazi overflow hidden parrent
-- ispobaj aside element
-- probaj customizirat detail element
-- renderanje dinaicne liste istih elemenata
+Y- tooltip ili dropdown koji nadilazi overflow hidden parrent
+Y- ispobaj aside element
+Y- probaj customizirat detail element
+Y- renderanje dinaicne liste istih elemenata
+- autorizacija preko googla
 
 Pitanja
 - dali je po dizajnu da se preko propova salju callback funkcije koje bi emitale eventove nazad u komponentu koja salje tu metodu

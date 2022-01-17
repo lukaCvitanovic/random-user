@@ -8,6 +8,8 @@ import PortalsPage from '@/views/PortalsPage';
 import Aside from '@/views/Aside';
 import DynamicInputs from '@/views/DynamicInputs';
 import PortalTooltip from '@/views/PortalTooltip';
+import Login from '@/views/google-auth/Login';
+import Landing from '@/views/google-auth/Landing';
 import CommonLayout from '@/views/task/common/CommonLayout';
 import Menu from '@/views/Menu';
 import { Routes, Route } from 'react-router-dom';
@@ -72,6 +74,18 @@ function App() {
           path="portal-tooltip"
           element={<PortalTooltip />}
         />
+        <Route
+          path="google-auth"
+        >
+          <Route
+            path="login"
+            element={<Login />}
+          />
+          <Route
+            path="landing"
+            element={<Landing />}
+          />
+        </Route>
         <Route
           path='*'
           element={<NotFount />}

@@ -11,6 +11,8 @@ const Menu = () => {
             <Link to="aside">Aside</Link>
             <Link to="dynamic-inputs">Dynami Inputs</Link>
             <Link to="portal-tooltip">Portal Tooltip</Link>
+            <Link to="google-auth/login">Google login page</Link>
+            <Link to="google-auth/landing">Google landing page</Link>
         </div>
     );
 };

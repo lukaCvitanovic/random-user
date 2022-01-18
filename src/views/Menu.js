@@ -13,6 +13,7 @@ const Menu = () => {
             <Link to="portal-tooltip">Portal Tooltip</Link>
             <Link to="google-auth/login">Google login page</Link>
             <Link to="google-auth/landing">Google landing page</Link>
+            <Link to="form-validation">Form validation page</Link>
         </div>
     );
 };

@@ -10,6 +10,7 @@ import DynamicInputs from '@/views/DynamicInputs';
 import PortalTooltip from '@/views/PortalTooltip';
 import Login from '@/views/google-auth/Login';
 import Landing from '@/views/google-auth/Landing';
+import FormValidation from '@/views/FormValidation';
 import CommonLayout from '@/views/task/common/CommonLayout';
 import Menu from '@/views/Menu';
 import { Routes, Route } from 'react-router-dom';
@@ -86,6 +87,10 @@ function App() {
             element={<Landing />}
           />
         </Route>
+        <Route
+          path="form-validation"
+          element={<FormValidation />}
+        />
         <Route
           path='*'
           element={<NotFount />}

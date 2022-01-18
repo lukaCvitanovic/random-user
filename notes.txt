@@ -259,6 +259,7 @@ Pitanja
 
 Podrucja napredovanja
 - form validacija/(react-hook-form)
+- hash reference and scroll
 - Accessibility
 - Focus control
 
